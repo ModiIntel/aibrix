@@ -33,15 +33,17 @@ spec:
             - --served-model-name
             # Note: The `--served-model-name` argument value must also match the Service name and the Deployment label `model.aibrix.ai/name`
             - qwen-coder-1-5b-instruct
-            - --api-key
-            - sk-kFJ12nKsFakefVmGpj3QzX65s4RbN2xJqWzPYCjYu7wT3BFake
             - --enable-lora
+            - --dtype
+            - half    
           image: vllm/vllm-openai:v0.7.1
           imagePullPolicy: Always
           name: vllm-openai
           env:
             - name: VLLM_ALLOW_RUNTIME_LORA_UPDATING
               value: "True"
+            - name: HUGGING_FACE_HUB_TOKEN
+              value: "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"
           ports:
             - containerPort: 8000
               protocol: TCP
