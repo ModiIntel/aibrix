@@ -43,7 +43,7 @@ spec:
             - name: VLLM_ALLOW_RUNTIME_LORA_UPDATING
               value: "True"
             - name: HUGGING_FACE_HUB_TOKEN
-              value: "ADD YOUR KEY HERE"
+              value: ""
           ports:
             - containerPort: 8000
               protocol: TCP
