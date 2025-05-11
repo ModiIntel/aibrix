@@ -1,0 +1,62 @@
+{
+  "name": "AIbrix Development",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "golang.go", // Go language support
+        "ms-python.python", // Python language support
+        "ms-azuretools.vscode-docker", // Docker support
+        "eamodio.gitlens", // GitLens for Git insights
+        "streetsidesoftware.code-spell-checker", // Spell checker
+        "redhat.vscode-yaml", // YAML support
+        "github.copilot", // GitHub Copilot
+        "github.copilot-chat" // GitHub Copilot Chat
+      ],
+      "settings": {
+        "go.useLanguageServer": true,
+        "go.goroot": "/usr/local/go",
+        "go.gopath": "/go",
+        "go.toolsEnvVars": {
+          "GO111MODULE": "on"
+        },
+        "python.defaultInterpreterPath": "/usr/local/bin/python3",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.organizeImports": true
+        }
+      }
+    }
+  },
+  "forwardPorts": [
+    8080, // Application port
+    8081, // Additional port
+    8082 // Additional port
+  ],
+  "postCreateCommand": "sudo groupadd -f docker && sudo usermod -aG docker vscode && sudo chown root:docker /var/run/docker.sock && sudo chmod 660 /var/run/docker.sock && go mod download && curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64 && chmod +x ./kind && sudo mv ./kind /usr/local/bin/kind && curl -LO \"https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl\" && chmod +x kubectl && sudo mv kubectl /usr/local/bin/",
+  "remoteUser": "vscode",
+  "features": {
+    "ghcr.io/devcontainers/features/go:1": {
+      "version": "1.22.5" // Go version
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11" // Python version
+    },
+    "ghcr.io/devcontainers/features/git:1": {}, // Git support
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {} // Docker support
+  },
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ],
+  "remoteEnv": {
+    "DOCKER_HOST": "unix:///var/run/docker.sock" // Set Docker socket path
+  },
+  "runArgs": [
+    "--privileged" // Allow privileged mode for Docker
+  ]
+}
